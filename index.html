@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f6f1">
+  <title>Daymark | Symptom pattern tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#dashboard" aria-label="Daymark home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>daymark<span class="brand-period">.</span></span></a>
+      <p class="nav-label">YOUR SPACE</p>
+      <nav class="nav-links">
+        <button class="nav-link active" data-view="dashboard"><span class="nav-icon" aria-hidden="true">◫</span>Overview</button>
+        <button class="nav-link" data-view="history"><span class="nav-icon" aria-hidden="true">▤</span>Journal</button>
+        <button class="nav-link" data-view="insights"><span class="nav-icon" aria-hidden="true">⌁</span>Patterns</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="privacy-card"><span class="privacy-icon" aria-hidden="true">◈</span><div><strong>Your data stays here</strong><p>Saved only in this browser. Never sent to a server.</p></div></div>
+        <button class="nav-link export-nav" id="export-button"><span class="nav-icon" aria-hidden="true">↗</span>Export my data</button>
+        <span class="version-label">A private space for noticing.</span>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar"><div class="breadcrumb"><span>MY HEALTH</span><span class="breadcrumb-slash">/</span><span id="breadcrumb-view">OVERVIEW</span></div><div class="topbar-actions"><span class="local-indicator"><span></span>Stored on this device</span><button class="avatar" aria-label="Data and privacy settings" title="Data and privacy">D</button></div></header>
+      <section class="view-panel" id="dashboard-view">
+        <div class="page-heading"><div><p class="eyebrow" id="today-label">YOUR DAILY CHECK-IN</p><h1>A little more <em>in tune.</em></h1><p class="heading-copy">Small observations can add up. Start wherever you are today.</p></div><button class="button button-primary" id="new-entry-button"><span aria-hidden="true">+</span> Log today</button></div>
+        <div class="stats-row" aria-label="Your tracking summary">
+          <article class="stat-card"><span class="stat-label">DAYS LOGGED</span><div class="stat-value" id="stat-days">0</div><div class="stat-caption">A record of your days</div><span class="stat-mark mark-green" aria-hidden="true">↗</span></article>
+          <article class="stat-card"><span class="stat-label">THIS WEEK</span><div class="stat-value" id="stat-week">0<span class="stat-unit"> / 7</span></div><div class="stat-caption">Daily check-ins</div><span class="stat-mark mark-coral" aria-hidden="true">◷</span></article>
+          <article class="stat-card"><span class="stat-label">MOST NOTED</span><div class="stat-value stat-text" id="stat-symptom">—</div><div class="stat-caption">Across your entries</div><span class="stat-mark mark-gold" aria-hidden="true">✳</span></article>
+          <article class="stat-card"><span class="stat-label">CURRENT STREAK</span><div class="stat-value" id="stat-streak">0<span class="stat-unit"> days</span></div><div class="stat-caption">Consecutive days logged</div><span class="stat-mark mark-blue" aria-hidden="true">↗</span></article>
+        </div>
+        <div class="dashboard-grid">
+          <section class="surface rhythm-panel"><div class="section-heading"><div><p class="eyebrow">YOUR RHYTHM</p><h2>Last 7 days</h2></div><span class="chart-legend"><i></i> Symptom intensity</span></div><div class="chart-wrap"><canvas id="rhythm-chart" role="img" aria-label="Symptom intensity over the last seven days"></canvas><div class="chart-empty" id="chart-empty"><span class="empty-spark" aria-hidden="true">✳</span><strong>Your week, as it unfolds.</strong><span>Log a few days to see your rhythm here.</span><button class="text-button" id="chart-log-button">Make your first entry <span aria-hidden="true">→</span></button></div></div></section>
+          <section class="surface patterns-panel"><div class="section-heading"><div><p class="eyebrow">WORTH NOTICING</p><h2>Early patterns</h2></div><button class="icon-button" data-view="insights" title="See all patterns" aria-label="See all patterns">↗</button></div><div id="dashboard-insights" class="insight-list"><div class="insight-placeholder"><span class="insight-glyph" aria-hidden="true">⌁</span><p>Your patterns will appear as you log. A few entries help make comparisons more useful.</p></div></div><button class="text-button see-patterns" data-view="insights">Explore patterns <span aria-hidden="true">→</span></button></section>
+          <section class="surface recent-panel"><div class="section-heading"><div><p class="eyebrow">YOUR NOTES</p><h2>Recent check-ins</h2></div><button class="text-button" data-view="history">View journal <span aria-hidden="true">→</span></button></div><div id="recent-entries" class="entry-list"><div class="journal-empty"><p>No check-ins yet. Your first note can be as simple as it needs to be.</p><button class="button button-secondary" id="empty-log-button">＋ Add an entry</button></div></div></section>
+        </div>
+        <p class="medical-note"><span aria-hidden="true">ⓘ</span> Daymark helps you notice patterns, not diagnose conditions. Bring questions or concerns to a qualified healthcare professional.</p>
+      </section>
+
+      <section class="view-panel hidden" id="history-view"><div class="page-heading compact-heading"><div><p class="eyebrow">YOUR RECORD, YOURS</p><h1>The <em>journal.</em></h1><p class="heading-copy">A private record of what you notice, day by day.</p></div><button class="button button-primary" id="history-new-button"><span aria-hidden="true">+</span> New entry</button></div><div class="surface history-surface"><div class="history-toolbar"><h2>All check-ins <span id="history-count">0</span></h2><label class="search-box"><span aria-hidden="true">⌕</span><input id="history-search" type="search" placeholder="Search notes or symptoms" aria-label="Search journal"></label></div><div id="history-entries" class="history-list"></div><div id="history-empty" class="empty-state"><span class="empty-spark" aria-hidden="true">✳</span><h3>Your journal starts here.</h3><p>Each entry is saved privately on this device.</p><button class="button button-primary" id="history-empty-button">＋ Log your first day</button></div></div><p class="medical-note"><span aria-hidden="true">ⓘ</span> Daymark helps you notice patterns, not diagnose conditions. Bring questions or concerns to a qualified healthcare professional.</p></section>
+
+      <section class="view-panel hidden" id="insights-view"><div class="page-heading compact-heading"><div><p class="eyebrow">GENTLE OBSERVATIONS</p><h1>What might be <em>connected?</em></h1><p class="heading-copy">Comparisons from your own entries, calculated privately on this device.</p></div><span class="on-device-badge"><span></span> On-device analysis</span></div><div class="insights-intro"><span class="insight-glyph" aria-hidden="true">⌁</span><p>These are simple comparisons in your journal, not proof of cause and effect. Your experience is more than a pattern.</p></div><div id="all-insights" class="all-insights-grid"></div><section class="surface insight-summary"><div><p class="eyebrow">A NOTE FOR YOUR NEXT VISIT</p><h2>Take your observations with you.</h2><p>Export a clear, printable summary of your entries to discuss with your care team.</p></div><button class="button button-secondary" id="print-summary-button"><span aria-hidden="true">▤</span> Prepare visit summary</button></section><p class="medical-note"><span aria-hidden="true">ⓘ</span> Daymark is not a medical device. Patterns are descriptive only and should not guide treatment decisions without a clinician.</p></section>
+    </main>
+  </div>
+
+  <dialog class="entry-dialog" id="entry-dialog" aria-labelledby="dialog-title"><form id="entry-form" method="dialog"><div class="dialog-header"><div><p class="eyebrow">PRIVATE DAILY CHECK-IN</p><h2 id="dialog-title">How are you <em>today?</em></h2></div><button type="button" class="icon-button close-button" id="close-dialog" aria-label="Close">×</button></div><div class="form-scroll">
+    <label class="field-label" for="entry-date">DATE</label><input class="text-input date-input" id="entry-date" name="date" type="date" required>
+    <fieldset class="symptom-fieldset"><legend class="field-label">WHAT DID YOU NOTICE?</legend><div class="symptom-options" id="symptom-options"></div></fieldset>
+    <div class="range-row"><label class="field-label" for="entry-severity">OVERALL SYMPTOM INTENSITY <span class="range-value" id="severity-value">0 / 5</span></label><input id="entry-severity" name="severity" type="range" min="0" max="5" value="0"><div class="range-ends"><span>None</span><span>Strong</span></div></div>
+    <div class="two-fields"><div><label class="field-label" for="entry-sleep">SLEEP <span class="field-hint">hours</span></label><input class="text-input" id="entry-sleep" name="sleep" type="number" min="0" max="24" step="0.25" placeholder="e.g. 7.5"></div><div><label class="field-label" for="entry-sleep-quality">SLEEP QUALITY <span class="range-value" id="sleep-value">3 / 5</span></label><input id="entry-sleep-quality" name="sleepQuality" type="range" min="1" max="5" value="3"></div></div>
+    <div class="two-fields"><div><label class="field-label" for="entry-stress">STRESS</label><select class="text-input" id="entry-stress" name="stress"><option value="">Choose if you'd like</option><option value="1">Low</option><option value="2">A little</option><option value="3">Moderate</option><option value="4">High</option><option value="5">Very high</option></select></div><div><label class="field-label" for="entry-cycle">CYCLE PHASE <span class="field-hint">optional</span></label><select class="text-input" id="entry-cycle" name="cycle"><option value="">Not tracking</option><option value="Menstrual">Menstrual</option><option value="Follicular">Follicular</option><option value="Ovulatory">Ovulatory</option><option value="Luteal">Luteal</option><option value="Not sure">Not sure</option></select></div></div>
+    <label class="field-label" for="entry-food">FOOD & DRINK <span class="field-hint">anything you want to remember</span></label><input class="text-input" id="entry-food" name="food" type="text" maxlength="180" placeholder="e.g. skipped lunch, extra coffee">
+    <label class="field-label" for="entry-notes">OTHER NOTES <span class="field-hint">optional</span></label><textarea class="text-input notes-input" id="entry-notes" name="notes" maxlength="1000" placeholder="What else feels worth remembering?"></textarea>
+  </div><div class="dialog-footer"><button type="button" class="button button-quiet" id="cancel-entry">Cancel</button><button type="submit" class="button button-primary" id="save-entry-button">Save check-in</button></div></form></dialog>
+  <dialog class="share-dialog" id="share-dialog" aria-labelledby="share-title"><div class="dialog-header"><div><p class="eyebrow">FOR YOUR CARE TEAM</p><h2 id="share-title">Your visit <em>summary.</em></h2></div><button type="button" class="icon-button close-button" id="close-share" aria-label="Close">×</button></div><p class="share-copy">This summary is generated on your device. Review it before printing or sharing.</p><div id="share-preview" class="share-preview"></div><div class="dialog-footer"><button type="button" class="button button-quiet" id="cancel-share">Close</button><button type="button" class="button button-primary" id="print-button"><span aria-hidden="true">▤</span> Print summary</button></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
